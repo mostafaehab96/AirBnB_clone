@@ -11,11 +11,21 @@ import uuid
 class BaseModel:
     """BaseModel class."""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialize the class with uniqe id."""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
+        if kwargs is None or len(kwargs) == 0:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now()
+            self.updated_at = datetime.datetime.now()
+        else:
+            for k, v in kwargs.items():
+                if k == "__class__":
+                    continue
+                if k == "created_at" or k == "updated_at":
+                    time = datetime.datetime.fromisoformat(v)
+                    setattr(self, k, time)
+                else:
+                    setattr(self, k, v)
 
     def __str__(self):
         """Returns string representation of the class."""
