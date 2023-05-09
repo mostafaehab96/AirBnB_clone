@@ -6,6 +6,7 @@ the base class for all other classes.
 
 import datetime
 import uuid
+import models
 
 
 class BaseModel:
@@ -17,6 +18,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
+            models.storage.new(self)
         else:
             for k, v in kwargs.items():
                 if k == "__class__":
@@ -34,8 +36,8 @@ class BaseModel:
 
     def save(self):
         """Updates the update_at attr with the current date and time."""
-
         self.updated_at = datetime.datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values
