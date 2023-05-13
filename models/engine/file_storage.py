@@ -3,19 +3,23 @@
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
+        """Returns all objects saved."""
         return FileStorage.__objects
 
     def new(self, obj):
+        """Saves new created object in objects dict."""
         key = obj.__class__.__name__ + "." + obj.id
         FileStorage.__objects[key] = obj
 
     def save(self):
+        """Serialize saved objects into json file."""
         dict_to_save = {}
         for key, obj in FileStorage.__objects.items():
             dict_to_save[key] = obj.to_dict()
@@ -23,6 +27,7 @@ class FileStorage:
             json.dump(dict_to_save, f)
 
     def reload(self):
+        """Deserialize objects from json file."""
         try:
             with open(FileStorage.__file_path, "r") as f:
                 obj_dict = json.load(f)
