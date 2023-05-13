@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
                 name = args[2]
                 value = args[3]
                 if value.startswith('"'):
-                    value = value[1:-1]
+                    value = line.split('"')[1]
                 if hasattr(instance, name):
                     attr_type = type(getattr(instance, name))
                     setattr(instance, name, attr_type(value))
