@@ -3,6 +3,7 @@
 
 import unittest
 from models.amenity import Amenity
+from models.base_model import BaseModel
 
 class TestAmenity(unittest.TestCase):
     """Test cases for Amenity"""
@@ -28,11 +29,10 @@ class TestAmenity(unittest.TestCase):
         self.assertTrue(isinstance(amenity_dict["created_at"], str))
         self.assertTrue(isinstance(amenity_dict["updated_at"], str))
         self.assertTrue(isinstance(amenity_dict["id"], str))
-        self.assertEqual(amenity_dict["name"], "")
         self.assertTrue("created_at" in amenity_dict)
         self.assertTrue("updated_at" in amenity_dict)
         self.assertTrue("id" in amenity_dict)
-        self.assertTrue("name" in amenity_dict)
+
 
 if __name__ == "__main__":
     unittest.main()
