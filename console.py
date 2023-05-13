@@ -124,6 +124,34 @@ class HBNBCommand(cmd.Cmd):
                 setattr(instance, name, value)
                 instance.save()
 
+    def count(self, line):
+        """Counts the number of instances of a class."""
+        args = line.split()
+        objects = [k for k in self.all_objects.keys() if k.startswith(args[0])]
+        print(len(objects))
+
+    def default(self, line):
+        """Defines a default implmentation if any other command was passed."""
+        args = line.split(".")
+        try:
+            cls_name = args[0]
+            function = args[1].split("(")[0]
+            obj_id = args[1].split("(")[1][0:-1]
+        except IndexError:
+            return cmd.Cmd.default(self, line)
+        functions = {
+            "all": self.do_all,
+            "count": self.count,
+            "show": self.do_show,
+            "update": self.do_update,
+            "destroy": self.do_destroy
+            }
+        if (cls_name not in self.classes
+                or function not in functions.keys()):
+            return cmd.Cmd.default(self, line)
+        else:
+            functions[function](f"{cls_name} {obj_id}")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
