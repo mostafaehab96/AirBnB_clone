@@ -3,6 +3,12 @@
 """Command interpeter."""
 import cmd
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 import models
 
 
@@ -10,7 +16,8 @@ class HBNBCommand(cmd.Cmd):
     """Class that handles the commands for AirBnB project."""
 
     prompt = "(hbnb) "
-    classes = ["BaseModel"]
+    classes = ["BaseModel", "User", "State",
+               "City", "Amenity", "Place", "Review"]
     all_objects = models.storage.all()
 
     def do_EOF(self, line):
@@ -58,7 +65,8 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         """Creates a new instance."""
         if self.check_line(line, 1):
-            new = BaseModel()
+            args = line.split()
+            new = eval(f"{args[0]}()")
             new.save()
             print(new.id)
 
