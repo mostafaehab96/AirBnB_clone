@@ -124,6 +124,14 @@ class HBNBCommand(cmd.Cmd):
                 setattr(instance, name, value)
                 instance.save()
 
+    def default(self, line):
+        """Defines a default implmentation if any other command was passed."""
+        args = line.split(".")
+        if len(args) != 2 or args[0] not in self.classes or args[1] != "all()":
+            return cmd.Cmd.default(self, line)
+        else:
+            self.do_all(args[0])
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
