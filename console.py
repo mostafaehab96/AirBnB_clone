@@ -110,11 +110,18 @@ class HBNBCommand(cmd.Cmd):
                 value = args[3]
                 if value.startswith('"'):
                     value = line.split('"')[1]
-                if hasattr(instance, name):
+                try:
                     attr_type = type(getattr(instance, name))
-                    setattr(instance, name, attr_type(value))
-                else:
-                    setattr(instance, name, value)
+                    value = attr_type(value)
+                except (ValueError, AttributeError):
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            pass
+                setattr(instance, name, value)
                 instance.save()
 
 
