@@ -10,6 +10,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 import models
+import json
 
 
 class HBNBCommand(cmd.Cmd):
@@ -124,6 +125,25 @@ class HBNBCommand(cmd.Cmd):
                 setattr(instance, name, value)
                 instance.save()
 
+    def try_update(self, cls_name, obj_attr):
+        """Try to use update function if arguments are correct."""
+        args = obj_attr.split(',')
+        obj_id = args[0].strip()
+        try:
+            update_dict = json.loads(args[1].strip())
+            ins = self.get_instance(cls_name, obj_id)
+            origin_dict = ins.to_dict()
+            origin_dict.update(update_dict)
+            cls_type = type(ins)
+            self.all_objects[f"{cls_name}.{obj_id}"] = cls_type(**origin_dict)
+        except Exception as e:
+            try:
+                attr_name = args[1].strip()
+                attr_value = args[2].strip()
+                self.do_update(f"{cls_name} {obj_id} {attr_name} {attr_value}")
+            except Exception as e:
+                cmd.Cmd.default(self, f"{cls_name}.{obj_attr}")
+
     def count(self, line):
         """Counts the number of instances of a class."""
         args = line.split()
@@ -143,14 +163,17 @@ class HBNBCommand(cmd.Cmd):
             "all": self.do_all,
             "count": self.count,
             "show": self.do_show,
-            "update": self.do_update,
+            "update": self.try_update,
             "destroy": self.do_destroy
             }
         if (cls_name not in self.classes
                 or function not in functions.keys()):
             return cmd.Cmd.default(self, line)
         else:
-            functions[function](f"{cls_name} {obj_id}")
+            if function == "update":
+                self.try_update(cls_name, obj_id)
+            else:
+                functions[function](f"{cls_name} {obj_id}")
 
 
 if __name__ == "__main__":
