@@ -142,8 +142,8 @@ class HBNBCommand(cmd.Cmd):
             self.all_objects[f"{cls_name}.{obj_id}"] = cls_type(**origin_dict)
         except Exception as e:
             try:
-                attr_name = args[1].strip()
-                attr_value = args[2].strip()
+                attr_name = args[1].strip('" ')
+                attr_value = args[2].strip('" ')
                 self.do_update(f"{cls_name} {obj_id} {attr_name} {attr_value}")
             except Exception as e:
                 cmd.Cmd.default(self, f"{cls_name}.{obj_attr}")
