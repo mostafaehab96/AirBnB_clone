@@ -128,9 +128,12 @@ class HBNBCommand(cmd.Cmd):
     def try_update(self, cls_name, obj_attr):
         """Try to use update function if arguments are correct."""
         args = obj_attr.split(',')
-        obj_id = args[0].strip()
+        obj_id = args[0].strip('" ')
+        dict_attr = obj_attr.split("{")
+        new_dict = "{" + dict_attr[1]
+        new_dict = new_dict.replace("'", '"')
         try:
-            update_dict = json.loads(args[1].strip())
+            update_dict = json.loads(new_dict)
             ins = self.get_instance(cls_name, obj_id)
             origin_dict = ins.to_dict()
             origin_dict.update(update_dict)
