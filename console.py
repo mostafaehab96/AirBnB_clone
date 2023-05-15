@@ -150,7 +150,7 @@ class HBNBCommand(cmd.Cmd):
                 attr_value = args[2].strip('" ')
                 self.do_update(f"{cls_name} {obj_id} {attr_name} {attr_value}")
             except Exception as e:
-                cmd.Cmd.default(self, f"{cls_name}.{obj_attr}")
+                self.do_update(f"{cls_name} {obj_id}")
 
     def count(self, line):
         """Counts the number of instances of a class."""
