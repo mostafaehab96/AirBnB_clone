@@ -99,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
             models.storage.save()
 
     def do_update(self, line):
-        """Updates instance by class name and id
+        """Updates instance by class name and id\
         by adding or updating instances.
         """
         if self.check_line(line, 2):
@@ -182,6 +182,12 @@ class HBNBCommand(cmd.Cmd):
                 self.try_update(cls_name, obj_id)
             else:
                 functions[function](f"{cls_name} {obj_id}")
+
+    def help_update(self):
+        """Docs for help command."""
+        doc = "\n".join(["Update instance by class name and id",
+                        "by adding or updating attributes."])
+        print(doc)
 
 
 if __name__ == "__main__":
