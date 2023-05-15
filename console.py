@@ -81,10 +81,13 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         """Prints all objects with the class name provided."""
         args = line.split()
-        if self.check_line(line, 1):
+        objects = []
+        if len(args) == 0:
+            objects = [str(v) for k, v in self.all_objects.items()]
+        elif self.check_line(line, 1):
             objects = [str(v) for k, v in self.all_objects.items()
                        if k.startswith(args[0])]
-            print(objects)
+        print(objects)
 
     def do_destroy(self, line):
         """Deletes an instance based on class name and id."""
