@@ -84,10 +84,11 @@ class HBNBCommand(cmd.Cmd):
         objects = []
         if len(args) == 0:
             objects = [str(v) for k, v in self.all_objects.items()]
+            print(objects)
         elif self.check_line(line, 1):
             objects = [str(v) for k, v in self.all_objects.items()
                        if k.startswith(args[0])]
-        print(objects)
+            print(objects)
 
     def do_destroy(self, line):
         """Deletes an instance based on class name and id."""
